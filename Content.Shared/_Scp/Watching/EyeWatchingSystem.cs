@@ -1,6 +1,6 @@
-﻿using Content.Shared._Scp.Proximity;
-using Content.Shared.Mobs.Components;
-using Content.Shared.Storage.Components;
+﻿using Content.Shared._Scp.Blinking;
+using Content.Shared._Scp.Helpers;
+using Content.Shared._Scp.Proximity;
 using Robust.Shared.Timing;
 
 namespace Content.Shared._Scp.Watching;
@@ -14,21 +14,23 @@ public sealed partial class EyeWatchingSystem : EntitySystem
     [Dependency] private readonly ProximitySystem _proximity = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
 
-    private static readonly TimeSpan WatchingCheckInterval = TimeSpan.FromSeconds(0.3f);
-
-    public const float SeeRange = 16f;
+    /// <summary>
+    /// Радиус, в котором сущности могут увидеть друг друга.
+    /// </summary>
+    [ViewVariables]
+    public float SeeRange { get; private set; } = 16f;
 
     public override void Initialize()
     {
-        SubscribeLocalEvent<WatchingTargetComponent, MapInitEvent>(OnMapInit);
-
-        _mobStateQuery = GetEntityQuery<MobStateComponent>();
-        _insideStorageQuery = GetEntityQuery<InsideEntityStorageComponent>();
+        InitializeApi();
+        InitializeEvents();
     }
 
-    private void OnMapInit(Entity<WatchingTargetComponent> ent, ref MapInitEvent args)
+    public override void Shutdown()
     {
-        SetNextTime(ent);
+        base.Shutdown();
+
+        ShutdownEvents();
     }
 
     /// <summary>
@@ -39,9 +41,6 @@ public sealed partial class EyeWatchingSystem : EntitySystem
     {
         base.Update(frameTime);
 
-        if (!_timing.IsFirstTimePredicted)
-            return;
-
         var query = EntityQueryEnumerator<WatchingTargetComponent>();
         while (query.MoveNext(out var uid, out var watchingComponent))
         {
@@ -49,96 +48,112 @@ public sealed partial class EyeWatchingSystem : EntitySystem
                 continue;
 
             // Все потенциально возможные смотрящие. Среди них те, что прошли фаст-чек из самых простых проверок
-            var potentialViewers = GetWatchers(uid);
+            using var potentialWatchers = ListPoolEntity<BlinkableComponent>.Rent();
+            if (!TryGetAllEntitiesVisibleTo(uid, potentialWatchers.Value))
+            {
+                SetNextTime(watchingComponent);
+                Dirty(uid, watchingComponent);
+
+                continue;
+            }
 
             // Вызываем ивенты на потенциально смотрящих. Без особых проверок
             // Полезно в коде, который уже использует подобные проверки или не требует этого
-            foreach (var potentialViewer in potentialViewers)
+            foreach (var potentialViewer in potentialWatchers.Value)
             {
+                var simpleViewerEvent = new SimpleEntityLookedAtEvent((uid, watchingComponent));
+                var simpleTargetEvent = new SimpleEntitySeenEvent(potentialViewer);
+
                 // За подробностями какой ивент для чего навести мышку на название ивента
-                RaiseLocalEvent(potentialViewer, new SimpleEntityLookedAtEvent((uid, watchingComponent)));
-                RaiseLocalEvent(uid, new SimpleEntitySeenEvent(potentialViewer));
+                RaiseLocalEvent(potentialViewer, ref simpleViewerEvent);
+                RaiseLocalEvent(uid, ref simpleTargetEvent);
+            }
+
+            // Если требуются только Simple ивенты, то нет смысла делать дальнейшие действия.
+            if (watchingComponent.SimpleMode)
+            {
+                SetNextTime(watchingComponent);
+                Dirty(uid, watchingComponent);
+
+                continue;
             }
 
             // Проверяет всех потенциальных смотрящих на то, действительно ли они видят цель.
             // Каждый потенциально смотрящий проходит полный комплекс проверок.
             // Выдает полный список всех сущностей, кто действительно видит цель
-            if (!IsWatchedBy(uid, potentialViewers, viewers: out var viewers))
+            using var realWatchers = ListPoolEntity<BlinkableComponent>.Rent();
+            if (!TryGetWatchersFrom(uid, realWatchers.Value, potentialWatchers.Value, checkProximity: false))
+            {
+                SetNextTime(watchingComponent);
+                Dirty(uid, watchingComponent);
+
                 continue;
+            }
 
             // Вызываем ивент на смотрящем, говорящие, что он действительно видит цель
-            foreach (var viewer in viewers)
+            foreach (var viewer in realWatchers.Value)
             {
                 var netViewer = GetNetEntity(viewer);
                 var firstTime = !watchingComponent.AlreadyLookedAt.ContainsKey(netViewer);
-                var blockerLevel = _proximity.GetLightOfSightBlockerLevel(viewer, uid);
 
                 // Небольшая заглушка для удобства работы с ивентами.
                 // Использовать firstTime не очень удобно, поэтому в качестве дополнительного способа определения будет TimeSpan.Zero
                 watchingComponent.AlreadyLookedAt[netViewer] = TimeSpan.Zero;
 
                 // За подробностями какой ивент для чего навести мышку на название ивента
-                RaiseLocalEvent(viewer, new EntityLookedAtEvent((uid, watchingComponent), firstTime, blockerLevel));
-                RaiseLocalEvent(uid, new EntitySeenEvent(viewer, firstTime, blockerLevel));
+                var viewerEvent = new EntityLookedAtEvent((uid, watchingComponent), firstTime);
+                var targetEvent = new EntitySeenEvent(viewer, firstTime);
+
+                RaiseLocalEvent(viewer, ref viewerEvent);
+                RaiseLocalEvent(uid, ref targetEvent);
 
                 // Добавляет смотрящего в список уже смотревших, чтобы позволить системам манипулировать этим
                 // И предотвращать эффект, если игрок смотрит не первый раз или не так давно
                 watchingComponent.AlreadyLookedAt[netViewer] = _timing.CurTime;
             }
 
-            Dirty(uid, watchingComponent);
             SetNextTime(watchingComponent);
+            Dirty(uid, watchingComponent);
         }
     }
 
+    /// <summary>
+    /// Устанавливает время следующей проверки видимости
+    /// </summary>
     private void SetNextTime(WatchingTargetComponent component)
     {
-        component.NextTimeWatchedCheck = _timing.CurTime + WatchingCheckInterval;
+        component.NextTimeWatchedCheck = _timing.CurTime + component.WatchingCheckInterval;
     }
 }
 
 /// <summary>
 /// Ивент вызываемый на смотрящем, передающий информации, что он посмотрел на кого-то
 /// </summary>
-/// <param name="target">Цель, на которую посмотрели</param>
-/// <param name="firstTime">Видим ли мы цель в первый раз</param>
-/// <param name="blockerLevel">Линия видимости между смотрящим и целью, подробнее <see cref="LineOfSightBlockerLevel"/></param>
-public sealed class EntityLookedAtEvent(Entity<WatchingTargetComponent> target, bool firstTime, LineOfSightBlockerLevel blockerLevel) : EntityEventArgs
-{
-    public readonly Entity<WatchingTargetComponent> Target = target;
-    public readonly bool IsSeenFirstTime = firstTime;
-    public readonly LineOfSightBlockerLevel BlockerLevel = blockerLevel;
-}
+/// <param name="Target">Цель, на которую посмотрели</param>
+/// <param name="FirstTime">Видим ли мы цель в первый раз</param>
+[ByRefEvent]
+public readonly record struct EntityLookedAtEvent(Entity<WatchingTargetComponent> Target, bool FirstTime);
 
 /// <summary>
 /// Ивент вызываемый на цели, передающий информации, что на нее кто-то посмотрел
 /// </summary>
-/// <param name="viewer">Смотрящий, который увидел цель</param>
-/// <param name="firstTime">Видим ли мы цель в первый раз</param>
-/// <param name="blockerLevel">Линия видимости между смотрящим и целью, подробнее <see cref="LineOfSightBlockerLevel"/></param>
-public sealed class EntitySeenEvent(EntityUid viewer, bool firstTime, LineOfSightBlockerLevel blockerLevel) : EntityEventArgs
-{
-    public readonly EntityUid Viewer = viewer;
-    public readonly bool IsSeenFirstTime = firstTime;
-    public readonly LineOfSightBlockerLevel BlockerLevel = blockerLevel;
-}
+/// <param name="Viewer">Смотрящий, который увидел цель</param>
+/// <param name="FirstTime">Видим ли мы цель в первый раз</param>
+[ByRefEvent]
+public readonly record struct EntitySeenEvent(EntityUid Viewer, bool FirstTime);
 
 /// <summary>
 /// Простой ивент, говорящий, что смотрящий посмотрел на цель.
 /// Вызывается до прохождения различных проверок на смотрящем. Если вдруг требуются собственная ручная проверка
 /// </summary>
-/// <param name="target">Цель, на которую посмотри</param>
-public sealed class SimpleEntityLookedAtEvent(Entity<WatchingTargetComponent> target) : EntityEventArgs
-{
-    public readonly Entity<WatchingTargetComponent> Target = target;
-}
+/// <param name="Target">Цель, на которую посмотри</param>
+[ByRefEvent]
+public readonly record struct SimpleEntityLookedAtEvent(Entity<WatchingTargetComponent> Target);
 
 /// <summary>
 /// Простой ивент, говорящий, что на цель кто-то посмотрел.
 /// Вызывается до прохождения различных проверок на цели. Если вдруг требуются собственная ручная проверка
 /// </summary>
-/// <param name="viewer">Смотрящий</param>
-public sealed class SimpleEntitySeenEvent(EntityUid viewer) : EntityEventArgs
-{
-    public readonly EntityUid Viewer = viewer;
-}
+/// <param name="Viewer">Смотрящий</param>
+[ByRefEvent]
+public readonly record struct SimpleEntitySeenEvent(EntityUid Viewer);
