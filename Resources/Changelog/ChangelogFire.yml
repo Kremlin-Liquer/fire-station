@@ -9589,3 +9589,12 @@
   id: 387
   time: '2026-03-22T18:05:39.0000000+00:00'
   url: https://github.com/space-sunrise/project-fire/pull/876
+- author: NowSoWizard
+  changes:
+  - message: "\"\u041A\u0430\u0432\u044B\u0447\u043A\u0438\" \u0447\u0430\u0442\u0430\
+      \ \u0437\u0430\u043C\u0435\u043D\u0435\u043D\u044B \u043D\u0430 \xAB\u0451\u043B\
+      \u043E\u0447\u043A\u0438\xBB."
+    type: Tweak
+  id: 388
+  time: '2026-03-23T12:40:05.0000000+00:00'
+  url: https://github.com/space-sunrise/project-fire/pull/878
