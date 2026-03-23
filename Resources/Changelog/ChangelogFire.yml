@@ -9598,3 +9598,20 @@
   id: 388
   time: '2026-03-23T12:40:05.0000000+00:00'
   url: https://github.com/space-sunrise/project-fire/pull/878
+- author: rokudara
+  changes:
+  - message: Added bunker blast door and bunker button prototypes for mappers to designate
+      safe zones
+    type: Add
+  - message: Added Bunker access level distributed to all non-Class-D personnel keycards
+    type: Add
+  - message: SCP-106 in both base and phantom form can no longer pass through closed
+      bunker doors
+    type: Tweak
+  - message: SCP-096 can no longer pry open bunker doors while in without-face mode
+    type: Tweak
+  - message: SCP-049 can no longer activate bunker door buttons
+    type: Tweak
+  id: 389
+  time: '2026-03-23T15:59:59.0000000+00:00'
+  url: https://github.com/space-sunrise/project-fire/pull/873
