@@ -1086,6 +1086,7 @@ WallMiningDiagonal: ScpWallConcreteDiagonal
 SolidSecretDoor: ScpSolidSecretDoor
 WindowFrostedDirectional: ScpWindowReinforcedDirectional
 WallBrick: ScpWallFireBrick
+WallWood: ScpWallWood
 
 PlasticFlapsAirtightClear: ScpPlasticFlapsAirtightClear
 PlasticFlapsAirtightOpaque: ScpPlasticFlapsAirtightOpaque
@@ -2190,11 +2191,19 @@ LockerThirdParty: ScpLockerThirdParty
 
 # Столы
 TableFrame: ScpTableFrame
+CounterWoodFrame: ScpCounterWoodFrame
 Table: ScpTable
 TableReinforced: ScpTableReinforced
 TableGlass: ScpTableGlass
 TableReinforcedGlass: ScpTableReinforcedGlass
 TablePlasmaGlass: ScpTablePlasmaGlass
+TableWood: ScpTableWood
+
+# Деревянные перила
+RailingWood: ScpRailingWood
+RailingCornerWood: ScpRailingCornerWood
+RailingCornerWoodSmall: ScpRailingCornerWoodSmall
+RailingRoundWood: ScpRailingRoundWood
 
 # Факсы
 FaxMachineCentcom: FaxMachineRegionalAdministration
@@ -2642,7 +2651,75 @@ BaseComputer: ScpComputer
 BaseComputerAiAccess: ScpComputer
 
 # Keycards rename
-
 KeyCardClassDCock: KeyCardClassDCook
+
+# Chair replacements
+Chair: ScpChair
+ChairGreyscale: ScpChairGreyscale
+ChairOfficeLight: ScpChairOfficeLight
+ChairOfficeDark: ScpChairOfficeDark
+ChairOfficeGrey: ScpChairOfficeGrey
+ChairWood: ScpChairWood
+WoodenBench: ScpWoodenBench
+ChairRitual: ScpChairRitual
+ChairCursed: ScpChairCursed
+
+# Wallmount storage replacements
+ShelfWood: ScpShelfWood
+ShelfRWood: ScpShelfRWood
+ShelfBar: ScpShelfBar
+
+# Melee weapon replacements
+BaseBallBat: ScpBaseBallBat
+IncompleteBaseBallBat: ScpIncompleteBaseBallBat
+
+# Shield replacements
+WoodenBuckler: ScpWoodenBuckler
+
+# Craft part replacements
+HiltWood: ScpHiltWood
+
+# Material replacements
+MaterialWoodPlank: ScpMaterialWoodPlank
+MaterialWoodPlank10: ScpMaterialWoodPlank10
+MaterialWoodPlank1: ScpMaterialWoodPlank1
+
+# Towercap replacements
+Log: ScpLog
+TowercapSeeds: ScpTowercapSeeds
+
+# Structure replacements
+WoodDoor: ScpWoodDoor
+TableCounterWood: ScpTableCounterWood
+Dresser: ScpDresser
+DresserFilled: ScpDresserFilled
+DresserCaptainFilled: ScpDresserDirectorFilled
+DresserChiefEngineerFilled: ScpDresserChiefTechnicalSpecialistFilled
+DresserChiefMedicalOfficerFilled: ScpDresserHeadOfMedicalSectorFilled
+DresserHeadOfPersonnelFilled: ScpDresserPersonnelOfficerFilled
+DresserHeadOfSecurityFilled: ScpDresserSecurityCommanderFilled
+DresserQuarterMasterFilled: ScpDresserQuarterMasterFilled
+DresserResearchDirectorFilled: ScpDresserScientificServiceDirectorFilled
+DresserWardenFilled: ScpDresserSquadLeaderFilled
+Bookshelf: ScpBookshelf
+BookshelfFilled: ScpBookshelfFilled
+Barricade: ScpBarricade
+StairWood: StairScpWood
+StairStageWood: StairScpWoodStage
+FenceWoodHighStraight: ScpFenceWoodHighStraight
+FenceWoodHighEnd: ScpFenceWoodHighEnd
+FenceWoodHighCorner: ScpFenceWoodHighCorner
+FenceWoodHighTJunction: ScpFenceWoodHighTJunction
+FenceWoodHighGate: ScpFenceWoodHighGate
+FenceWoodSmallStraight: ScpFenceWoodSmallStraight
+FenceWoodSmallEnd: ScpFenceWoodSmallEnd
+FenceWoodSmallCorner: ScpFenceWoodSmallCorner
+FenceWoodSmallTJunction: ScpFenceWoodSmallTJunction
+FenceWoodSmallGate: ScpFenceWoodSmallGate
+
+# Floor tile replacements
+FloorTileItemWood: ScpFloorTileItemWood
+FloorTileItemWoodLarge: ScpFloorTileItemWoodLarge
+FloorTileItemWoodPattern: ScpFloorTileItemWoodPattern
 
 # Fire added end

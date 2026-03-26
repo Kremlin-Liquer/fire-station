@@ -28,6 +28,7 @@
 - type: entity
   parent: BaseRailingWood
   id: RailingWood
+  categories: [ HideSpawnMenu ] # Fire edit
   components:
   - type: Sprite
     state: side
@@ -74,6 +75,7 @@
 - type: entity
   parent: BaseRailingWood
   id: RailingCornerWood
+  categories: [ HideSpawnMenu ] # Fire edit
   components:
   - type: Sprite
     state: corner
@@ -129,6 +131,7 @@
 - type: entity
   parent: BaseRailingWood
   id: RailingCornerWoodSmall
+  categories: [ HideSpawnMenu ] # Fire edit
   components:
   - type: Sprite
     state: corner_small
@@ -175,6 +178,7 @@
 - type: entity
   parent: BaseRailingWood
   id: RailingRoundWood
+  categories: [ HideSpawnMenu ] # Fire edit
   components:
   - type: Sprite
     state: round
