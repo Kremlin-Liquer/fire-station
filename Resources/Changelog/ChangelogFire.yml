@@ -9615,3 +9615,15 @@
   id: 389
   time: '2026-03-23T15:59:59.0000000+00:00'
   url: https://github.com/space-sunrise/project-fire/pull/873
+- author: rokudara
+  changes:
+  - message: Added a system that polls players when no SCP objects are present 10
+      minutes into a round, allowing a willing player to take on an available SCP
+      role mid-round
+    type: Add
+  - message: If no player volunteers to become an SCP, the facility director receives
+      a fax from O5 Oversight notifying them of the absence of all anomalous entities
+    type: Add
+  id: 390
+  time: '2026-03-26T18:08:56.0000000+00:00'
+  url: https://github.com/space-sunrise/project-fire/pull/879
