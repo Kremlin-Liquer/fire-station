@@ -9647,3 +9647,17 @@
   id: 391
   time: '2026-03-26T21:31:31.0000000+00:00'
   url: https://github.com/space-sunrise/project-fire/pull/819
+- author: rokudara
+  changes:
+  - message: Lowered the default field of view overlay opacity and raised the default
+      blur quality
+    type: Tweak
+  - message: Expanded the minimum opacity range so players can lower the darkness
+      significantly
+    type: Tweak
+  - message: Added a toggle to disable the FOV blur effect entirely for players who
+      find it distracting
+    type: Add
+  id: 392
+  time: '2026-03-27T19:44:24.0000000+00:00'
+  url: https://github.com/space-sunrise/project-fire/pull/885
