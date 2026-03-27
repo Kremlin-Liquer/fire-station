@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
+using Content.Client._Scp.UI.Compatibility;
 using Content.Client._Sunrise.Lobby.UI;
 using Content.Client.Administration.Managers;
 using Content.Client.Administration.Systems;
@@ -130,6 +131,9 @@ public sealed class AHelpUIController: UIController, IOnSystemChanged<BwoinkSyst
         if (LobbyAHelpButton != null)
         {
             LobbyAHelpButton.Pressed = pressed;
+            // Sunrise added start - sync lobby icon tint on programmatic pressed changes
+            HoverColorHelper.SetContentColor(LobbyAHelpButton, HoverColorHelper.GetColorForCurrentState(LobbyAHelpButton));
+            // Sunrise added end
         }
 
         UIManager.ClickSound();
@@ -323,6 +327,9 @@ public sealed class AHelpUIController: UIController, IOnSystemChanged<BwoinkSyst
             LobbyAHelpButton.OnPressed -= AHelpButtonPressed;
             LobbyAHelpButton.OnPressed += AHelpButtonPressed;
             LobbyAHelpButton.Pressed = UIHelper?.IsOpen ?? false;
+            // Sunrise added start - sync lobby icon tint on programmatic pressed changes
+            HoverColorHelper.SetContentColor(LobbyAHelpButton, HoverColorHelper.GetColorForCurrentState(LobbyAHelpButton));
+            // Sunrise added end
 
             if (_hasUnreadAHelp)
             {

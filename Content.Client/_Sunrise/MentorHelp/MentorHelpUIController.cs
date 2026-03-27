@@ -1,4 +1,5 @@
 using Content.Client._Sunrise.Lobby.UI;
+using Content.Client._Scp.UI.Compatibility;
 using Content.Client.Administration.Managers;
 using Content.Client.Gameplay;
 using Content.Client.Lobby;
@@ -148,6 +149,11 @@ public sealed class MentorHelpUIController : UIController, IOnSystemChanged<Ment
             LobbyMHelpButton.OnPressed -= MHelpButtonPressed;
             LobbyMHelpButton.OnPressed += MHelpButtonPressed;
             LobbyMHelpButton.Pressed = UIHelper?.IsOpen ?? false;
+
+            // Fire added start
+            HoverColorHelper.SetContentColor(LobbyMHelpButton, HoverColorHelper.GetColorForCurrentState(LobbyMHelpButton));
+            // Fire added end
+
             UpdateButtonStyling();
         }
     }
@@ -365,6 +371,11 @@ public sealed class MentorHelpUIController : UIController, IOnSystemChanged<Ment
 
         if (LobbyMHelpButton != null)
             LobbyMHelpButton.Pressed = pressed;
+
+        // Fire added start
+        if (LobbyMHelpButton != null)
+            HoverColorHelper.SetContentColor(LobbyMHelpButton, HoverColorHelper.GetColorForCurrentState(LobbyMHelpButton));
+        // Fire added end
     }
 
     private void UnreadTicketsRead()
