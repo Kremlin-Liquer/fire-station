@@ -9321,11 +9321,11 @@
   url: https://github.com/space-sunrise/fire-station/pull/846
 - author: rokudara
   changes:
-  - message: Disabled the global "Common" radio channel to encourage departmental
-      communication.
+  - message: Отключён глобальный радиоканал "Common", чтобы поощрить общение по
+      каналам отделов.
     type: Remove
-  - message: Added physical call buttons for all major departments that broadcast
-      assistance requests to their respective radio channels.
+  - message: Добавлены физические кнопки вызова для всех основных отделов, передающие
+      запросы о помощи в соответствующие радиоканалы.
     type: Add
   id: 376
   time: '2026-03-10T08:55:17.0000000+00:00'
@@ -9600,29 +9600,30 @@
   url: https://github.com/space-sunrise/project-fire/pull/878
 - author: rokudara
   changes:
-  - message: Added bunker blast door and bunker button prototypes for mappers to designate
-      safe zones
+  - message: Добавлены прототипы бункерной взрывозащитной двери и бункерной кнопки,
+      чтобы мапперы могли обозначать безопасные зоны
     type: Add
-  - message: Added Bunker access level distributed to all non-Class-D personnel keycards
+  - message: Добавлен уровень доступа Bunker, выданный на все карты сотрудников,
+      не относящихся к классу D
     type: Add
-  - message: SCP-106 in both base and phantom form can no longer pass through closed
-      bunker doors
+  - message: SCP-106 в обычной и фантомной форме больше не может проходить через
+      закрытые бункерные двери
     type: Tweak
-  - message: SCP-096 can no longer pry open bunker doors while in without-face mode
+  - message: SCP-096 больше не может вскрывать бункерные двери в режиме без лица
     type: Tweak
-  - message: SCP-049 can no longer activate bunker door buttons
+  - message: SCP-049 больше не может активировать кнопки бункерных дверей
     type: Tweak
   id: 389
   time: '2026-03-23T15:59:59.0000000+00:00'
   url: https://github.com/space-sunrise/project-fire/pull/873
 - author: rokudara
   changes:
-  - message: Added a system that polls players when no SCP objects are present 10
-      minutes into a round, allowing a willing player to take on an available SCP
-      role mid-round
+  - message: Добавлена система, которая через 10 минут после начала раунда опрашивает
+      игроков, если на станции нет SCP-объектов, позволяя желающему взять доступную
+      роль SCP по ходу раунда
     type: Add
-  - message: If no player volunteers to become an SCP, the facility director receives
-      a fax from O5 Oversight notifying them of the absence of all anomalous entities
+  - message: Если никто не вызовется стать SCP, директор комплекса получит факс
+      от O5 Oversight с уведомлением об отсутствии всех аномальных сущностей
     type: Add
   id: 390
   time: '2026-03-26T18:08:56.0000000+00:00'
@@ -9649,14 +9650,14 @@
   url: https://github.com/space-sunrise/project-fire/pull/819
 - author: rokudara
   changes:
-  - message: Lowered the default field of view overlay opacity and raised the default
-      blur quality
+  - message: Снижена стандартная непрозрачность затемнения поля зрения и повышено
+      стандартное качество размытия
     type: Tweak
-  - message: Expanded the minimum opacity range so players can lower the darkness
-      significantly
+  - message: Расширен минимальный диапазон непрозрачности, чтобы игроки могли
+      заметно уменьшить затемнение
     type: Tweak
-  - message: Added a toggle to disable the FOV blur effect entirely for players who
-      find it distracting
+  - message: Добавлен переключатель, полностью отключающий эффект размытия поля
+      зрения для игроков, которым он мешает
     type: Add
   id: 392
   time: '2026-03-27T19:44:24.0000000+00:00'
