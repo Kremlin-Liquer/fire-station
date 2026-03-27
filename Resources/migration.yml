@@ -303,7 +303,7 @@ CartridgeRifleRubber: CartridgeRifleSP # Sunrise-Edit
 CartridgeCaselessRifleRubber: CartridgeCaselessRifle
 # Sunrise-Edit
 # MagazinePistolRubber: MagazinePistol
-MagazinePistolSubMachineGunRubber: MagazinePistolSubMachineGunSP # Sunrise-Edit
+#MagazinePistolSubMachineGunRubber: MagazinePistolSubMachineGunSP # Sunrise-Edit
 MagazinePistolCaselessRifleRubber: MagazinePistolCaselessRifle
 # Sunrise-Edit
 # MagazineMagnumRubber: MagazineMagnum
@@ -622,6 +622,8 @@ VariedXenoArtifactItem: ComplexXenoArtifactItem
 
 # 2025-04-19
 ClothingOuterHardsuitSyndicate: ClothingOuterEVASuitSyndicate
+#AirlockMaintCommonLocked: AirlockMaintLocked # Fire edit
+#AirlockMaintIntLocked: AirlockMaintLocked # Fire edit
 
 # 2025-04-26
 # Sunrise-Edit
@@ -652,9 +654,9 @@ MatterBinStockPart: MicroManipulatorStockPart
 CapacitorStockPart: MicroManipulatorStockPart
 
 # 2025-05-26 Turrets
-#WeaponEnergyTurretStation: WeaponEnergyTurretSecurity Fire
+#WeaponEnergyTurretStation: WeaponEnergyTurretSecurity
 WeaponEnergyTurretStationControlPanel: WeaponEnergyTurretSecurityControlPanel
-WeaponEnergyTurretStationMachineCircuitboardBase: WeaponEnergyTurretSecurityMachineCircuitboard
+WeaponEnergyTurretStationMachineCircuitboard: WeaponEnergyTurretSecurityMachineCircuitboard
 
 # 2025-05-30
 SpawnHonkBot: SpawnMobHonkBot
@@ -866,6 +868,7 @@ SupermatterSliver: null
 CartridgePistol: null
 AtmosDeviceFanTinyDev: AtmosDeviceFanTiny
 AtmosDeviceFanDirectionalDev: AtmosDeviceFanDirectional
+GasMinerPlasma: null # Temporary Sunrise migration entry until GasMinerPlasma is removed from all maps.
 MagazineBR64Extended: null
 MagazineBR64: null
 MagazineAR18Extended: null
@@ -984,6 +987,11 @@ ClothingOuterSuitAreopagite: null
 SuitStorageBlueshield: SuitStorageBlueShield
 GunSafeIonRifle: GunSafeSuperIonRifle
 GunSafeSMRTGun: GunSafeSuperweaponSmartGun
+ComfyBrownChair: ComfyChairBrown
+#2026-02-28
+CartridgeRifle: CartridgeRifleSP
+MagazinePistolHighCapacity: MagazinePistolHighCapacitySP
+StorageCanisterBase: StorageCanister
 # region Sunrise-End
 
 # Санрайз насрал опять

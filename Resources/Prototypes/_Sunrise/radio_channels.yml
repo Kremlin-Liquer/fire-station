@@ -40,7 +40,7 @@
 - type: radioChannel
   id: DeathSquad
   name: chat-radio-deathsquad
-  keycode: 'э'
+  keycode: '|' # Fire edit - чтобы не конфликтовало
   frequency: 1340
   color: "#a93fff"
   longRange: true
@@ -48,7 +48,7 @@
 - type: radioChannel
   id: ERT
   name: chat-radio-ert
-  keycode: 'ж'
+  keycode: '}' # Fire edit - чтобы не конфликтовало
   frequency: 1360
   color: "#00ffd9"
   longRange: true
